@@ -89,3 +89,6 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
+.nyc_output/
+
+/node_modules/
