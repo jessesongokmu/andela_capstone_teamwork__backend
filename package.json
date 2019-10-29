@@ -1,0 +1,26 @@
+{
+  "name": "teamwork_backend",
+  "version": "1.0.0",
+  "description": "An internal social network for employees of an organization",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jessesongokmu/andela_capstone_teamwork__backend.git"
+  },
+  "keywords": [
+    "express",
+    "nodejs",
+    "postgresql",
+    "swagger",
+    "jasmine"
+  ],
+  "author": "Songok Jesse",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jessesongokmu/andela_capstone_teamwork__backend/issues"
+  },
+  "homepage": "https://github.com/jessesongokmu/andela_capstone_teamwork__backend#readme"
+}
