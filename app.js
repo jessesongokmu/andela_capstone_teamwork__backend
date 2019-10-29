@@ -1,30 +1,30 @@
 const  Express = require('express');
-const bodyParser = require('body-parser')
-const logger = require('morgan')
+const bodyParser = require('body-parser');
+const logger = require('morgan');
 const compression = require("compression");
-const cors = require('cors')
-const helmet = require('helmet')
+const cors = require('cors');
+const helmet = require('helmet');
 
-require('dotenv').config()
+require('dotenv').config();
 
 // instiantiate express
-const app = Express()
+const app = Express();
 
 
 // log requests to console for development
-app.use(logger('dev'))
+app.use(logger('dev'));
 
 // Use the compression of requests
 app.use(compression());
 
 // protect app with cors
-app.use(cors())
+app.use(cors());
 
 // Armoring the API with Helmet
 app.use(helmet());
 
 //body parser
-app.use(bodyParser.urlencoded({ extended: true}))
+app.use(bodyParser.urlencoded({ extended: true}));
 
 // parse application/json
 app.use(bodyParser.json());
@@ -36,9 +36,11 @@ const option = {
 };
 
 app.get('/', (req, res) => {
-    res.status(200).end()
-})
+    res.status(200).end();
+});
 
+// mount the router on the app
+app.use('/api/v1', require('./routes'));
 
 app.use((req,res,next)=>{
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -64,4 +66,4 @@ app.use((error, req, res, next) => {
 });
 
 
-module.exports = app
+module.exports = app;
