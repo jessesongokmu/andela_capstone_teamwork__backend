@@ -1,62 +1,46 @@
-const  Express = require('express');
-const bodyParser = require('body-parser')
-const logger = require('morgan')
-const compression = require("compression");
-const cors = require('cors')
-const helmet = require('helmet')
+const http = require('http');
+const app = require('./app');
 
-require('dotenv').config()
+const normalizePort = val => {
+    const port = parseInt(val, 10);
 
+    if (isNaN(port)) {
+        return val;
+    }
 
-// server port number
-const Port = process.env.PORT || 5000
-const Host = process.env.HOST || '0.0.0.0'
+    if (port >= 0) {
+        return port;
+    }
+}
 
-// instiantiate express
-const app = Express()
+const port = normalizePort(process.env.PORT || 3000)
+app.set('port', port);
 
+const errorHandler = error => {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+    const address = server.address();
+    const bind = typeof address === 'string' ? 'pipe' + address : 'port' + port;
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + 'requires elevated privileges');
+            process.exit(1);
+            break;
+        case  'EADDRINUSE':
+            console.error(bind + 'is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+};
 
-// log requests to console for development
-app.use(logger('dev'))
-
-// Use the compression of requests
-app.use(compression());
-
-// protect app with cors
-app.use(cors())
-
-// Armoring the API with Helmet
-app.use(helmet());
-
-//body parser
-app.use(bodyParser.urlencoded({ extended: true}))
-
-// parse application/json
-app.use(bodyParser.json());
-
-
-app.get('/', (req, res) => {
-    res.status(200).end()
-})
-
-// erro handlers
-app.use((req, res, next) => {
-    const error = new Error("Not found");
-    error.status = 404;
-    next(error);
+const server = http.createServer(app);
+server.on('error', errorHandler);
+server.on('listening', () =>{
+    const address = server.address();
+    const bind = typeof address === 'string' ? 'pipe' + address: 'port' + port;
+    console.log('Listening on' + bind);
 });
-
-app.use((error, req, res, next) => {
-    res.status(error.status || 500 );
-    res.json({
-        error: {
-            message: error.message
-        }
-    })
-});
-
-app.listen(Port, Host, ()=>{
-    console.log(`server is running on ${Host}: ${Port}`)
-})
-
-module.exports = app
+server.listen( port);
