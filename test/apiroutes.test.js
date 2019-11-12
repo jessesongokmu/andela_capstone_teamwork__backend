@@ -90,10 +90,6 @@ describe('/POST Create User', (done)=>{
             .send(user)
             .end((err, res) => {
                 expect(res).to.have.status(200);
-                expect(res).to.be.a('object');
-                // expect(res).to.have.an.array('errors');
-                // res.body.errors.should.have.property('pages');
-                // res.body.errors.pages.should.have.property('kind').eql('required');
                 done();
             });
     });

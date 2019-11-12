@@ -3,7 +3,7 @@ const uuid = require('uuid/v4');
 const db = require('../config/db');
 const bcrypt = require('bcrypt');
 const moment = require('moment');
-const Helper = require('../middleware/auth_helper');
+const Helper = require('../middlewares/auth_helper');
 
 const { sanitizeBody, check, validationResult }= require('express-validator');
 
