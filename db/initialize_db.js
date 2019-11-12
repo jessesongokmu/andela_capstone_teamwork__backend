@@ -7,7 +7,7 @@ dotenv.config();
 
 // Intialize the connection string
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL
+    connectionString: process.env.TEST_DATABASE_URL
 });
 
 //Enable the connection
@@ -43,7 +43,7 @@ const createUserTables = () => {
             console.log(err);
             pool.end();
         });
-}
+};
 
 /**
  * Drop User Tables
@@ -59,7 +59,7 @@ const dropUserTables = () => {
             console.log(err);
             pool.end();
         });
-}
+};
 
 pool.on('remove', () => {
     console.log('client removed');

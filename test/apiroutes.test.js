@@ -36,14 +36,64 @@ describe("Api Routes Access", () => {
                 done();
             });
     });
-    it("Get to /login", (done)=>{
+    // it("Get to /auth/signin", (done)=>{
+    //     chai
+    //         .request(app)
+    //         .get("/api/v1/auth/signin")
+    //         .end((err, res) => {
+    //             expect(res).to.have.status(200);
+    //             done();
+    //         });
+    // });
+
+});
+
+describe('/POST Create User', (done)=>{
+    it("Post to /auth/create-user to check if it validates for blank fields", (done)=>{
+
+        let user = {
+            firstName : "",
+            lastName : "",
+            email : "",
+            password : "",
+            confirmPassword : "",
+            gender : "",
+            jobRole : "",
+            department : "",
+            address : ""
+        };
         chai
             .request(app)
-            .get("/api/v1/login")
+            .post("/api/v1/auth/create-user")
+            .send(user)
+            .end((err, res) => {
+                expect(res).to.have.status(422);
+                expect(res).to.be.a('object');
+                done();
+            });
+    });
+    it("Post to /auth/create-user to check  if user is persisted into the database", (done)=>{
+        let user = {
+            firstName : "test",
+            lastName : "test",
+            email : "test@gmail.com",
+            password : "test123",
+            confirmPassword : "test123",
+            gender : "male",
+            jobRole : "manager",
+            department : "ict",
+            address : "2752"
+        };
+        chai
+            .request(app)
+            .post("/api/v1/auth/create-user")
+            .send(user)
             .end((err, res) => {
                 expect(res).to.have.status(200);
-                expect(res.body.status).to.equals("success");
-                expect(res.body.message).to.equals("Welcome To Login Route");
+                expect(res).to.be.a('object');
+                // expect(res).to.have.an.array('errors');
+                // res.body.errors.should.have.property('pages');
+                // res.body.errors.pages.should.have.property('kind').eql('required');
                 done();
             });
     });

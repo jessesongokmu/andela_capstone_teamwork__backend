@@ -1,12 +1,11 @@
+const express = require('express');
+const router = express.Router();
 
-// create another router for getting 'user' resources
-var router = require('express').Router();
+// Import Controllers
+const authController = require('../controllers/authentication');
 
 // individual user routes
-router.get('/', function(req, res, next) {
-    res.json({ status: "success", message: "Welcome To Login Route" });
-});
-
-
+router.post('/create-user', authController.create_user);
+router.post('/signin', authController.signin);
 
 module.exports = router;
