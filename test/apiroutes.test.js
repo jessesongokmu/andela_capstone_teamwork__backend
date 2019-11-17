@@ -48,7 +48,7 @@ describe("Api Routes Access", () => {
 
 });
 
-describe('/POST Create User', (done)=>{
+describe('/POST Create User', ()=>{
     it("Post to /auth/create-user to check if it validates for blank fields", (done)=>{
 
         let user = {
@@ -76,7 +76,7 @@ describe('/POST Create User', (done)=>{
         let user = {
             firstName : "test",
             lastName : "test",
-            email : "test@gmail.com",
+            email : "test3@gmail.com",
             password : "test123",
             confirmPassword : "test123",
             gender : "male",

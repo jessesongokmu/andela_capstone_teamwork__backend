@@ -17,7 +17,7 @@ const saltRounds = 10;
  * @returns {object} results object
  */
 // Handle User creation post
-exports.create_user = [
+const createUser = [
 
 // Validate what has been posted from the form
     // Validate form field is not empty.
@@ -30,7 +30,7 @@ exports.create_user = [
     check('gender', 'Gender is required').isLength({ min: 4 }).trim(),
     check('jobRole', 'Job Role is required').isLength({ min: 1 }).trim(),
     check('department', 'Department is required').isLength({ min: 1 }).trim(),
-    check('adddress', 'Address is required').isLength({ min: 1 }).trim(),
+    check('address', 'Address is required').isLength({ min: 1 }).trim(),
 
     // Sanitize (escape) the form fields.
     sanitizeBody('firstName').escape(),
@@ -41,7 +41,7 @@ exports.create_user = [
     sanitizeBody('gender').escape(),
     sanitizeBody('jobRole').escape(),
     sanitizeBody('department').escape(),
-    sanitizeBody('adddress').escape(),
+    sanitizeBody('address').escape(),
 
     // Process request after validation
     // eslint-disable-next-line no-unused-vars
@@ -51,12 +51,6 @@ exports.create_user = [
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         }
-        (req,res,next) =>{
-            // Get validation results
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return res.status(422).json({ errors: errors.array() });
-            }
             // check if email already exists
             const text = 'SELECT * FROM users WHERE email = $1';
             // Todo Refactor the code
@@ -67,7 +61,8 @@ exports.create_user = [
                     res.json({
                         message: "Email already in Use"
                     });
-                }else{
+                }
+
                     // process input
                     // hash the password
                     bcrypt.hash(req.body.password, saltRounds,  (err,   hash)=> {
@@ -75,39 +70,45 @@ exports.create_user = [
                             id: uuid(),
                             email: req.body.email,
                             password: hash,
-                            firstName: req.body.firstname,
-                            lastName: req.body.lastname,
+                            firstName: req.body.firstName,
+                            lastName: req.body.lastName,
                             gender: req.body.gender,
                             jobRole: req.body.jobRole,
                             department: req.body.department,
                             address: req.body.address,
-                            created_at: moment(new Date()),
-                            updated_at: moment(new Date())
+                            created_date: moment(new Date()),
+                            modified_date: moment(new Date())
                         };
                         // get individual fields
-                        const {id,firstName,lastName,email,password,gender,jobRole,department,address,created_at,updated_at} = user;
+                        const {id,firstName,lastName,email,password,gender,jobRole,department,address,created_date,modified_date} = user;
 
                         // Parameterize the query
-                        const AuthQuery = 'INSERT INTO users(id,firstName,lastName,email,password,gender,jobRole,department,address,created_at,updated_at) VALUES($1, $2, $3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *';
-                        const values = [id,firstName,lastName,email,password,gender,jobRole,department,address,created_at,updated_at];
+                        const AuthQuery = 'INSERT INTO users(id,firstName,lastName,email,password,gender,jobRole,department,address,created_date,modified_date) VALUES($1, $2, $3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *';
+                        const values = [id,firstName,lastName,email,password,gender,jobRole,department,address,created_date,modified_date];
 
                         // Insert/Persist the values into DB
                         db.query(AuthQuery,values, (error, results) => {
                             if (error) {
+                               //res.status(422).json({ error: error });
                                 throw error;
-                                // return next(error);
                             }
-                            res.status(201).send(results.rows[0]);
+                            res.status(200).json({
+                                status: "Success",
+                                data :{
+                                    message : "User account successfully created",
+                                    userID : results.rows[0].id,
+                                    email: results.rows[0].email
+                                }
+
+                            });
+                            return;
                         })
                     });
-                }
             });
         }
-
- }
 ];
 // eslint-disable-next-line no-unused-vars
-exports.signin = (req, res, next) => {
+const signin = (req, res, next) => {
     // Get validation results
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -137,3 +138,8 @@ exports.signin = (req, res, next) => {
         return res.status(400).send(err);
     });
 }
+
+module.exports = {
+    createUser,
+    signin
+};

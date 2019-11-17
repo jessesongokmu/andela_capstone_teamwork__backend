@@ -4,12 +4,12 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const dbConnect = new Pool({
+const db = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
-dbConnect.on('connect', () => {
+db.on('connect', () => {
     console.log('connected to the db');
 });
 
-module.exports = dbConnect ;
+module.exports = db ;
