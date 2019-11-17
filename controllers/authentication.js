@@ -134,6 +134,7 @@ const signin = (req, res, next) => {
                 token: token
             }
         });
+        return ;
     }).catch( (err)=>{
         return res.status(400).send(err);
     });
