@@ -36,16 +36,6 @@ describe("Api Routes Access", () => {
                 done();
             });
     });
-    // it("Get to /auth/signin", (done)=>{
-    //     chai
-    //         .request(app)
-    //         .get("/api/v1/auth/signin")
-    //         .end((err, res) => {
-    //             expect(res).to.have.status(200);
-    //             done();
-    //         });
-    // });
-
 });
 
 describe('/POST Create User', ()=>{
