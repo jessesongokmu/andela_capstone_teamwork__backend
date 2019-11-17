@@ -93,6 +93,7 @@ const createUser = [
                             if (error) {
                                //res.status(422).json({ error: error });
                                 throw error;
+                                return;
                             }
                             res.status(200).json({
                                 status: "Success",

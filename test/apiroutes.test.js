@@ -66,7 +66,7 @@ describe('/POST Create User', ()=>{
         let user = {
             firstName : "test",
             lastName : "test",
-            email : "test3@gmail.com",
+            email : "test@gmail.com",
             password : "test123",
             confirmPassword : "test123",
             gender : "male",
@@ -96,7 +96,6 @@ describe('POST /auth/signin', () => {
                 password: "test123",
             })
             .end((err, res) => {
-                // expect(res).to.not.throw(err);
                 expect(res.status).to.equal(200);
                 expect(res.type).to.equal('application/json');
                 expect(res.body.message).to.equal('Success');
