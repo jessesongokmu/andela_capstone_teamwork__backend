@@ -104,14 +104,14 @@ const dropGifTable = () => {
  * Create All Tables
  */
 const createAllTables = () => {
-    createUserTable();
+    createUserTables();
     createGifTable();
 }
 /**
  * Drop All Tables
  */
 const dropAllTables = () => {
-    dropUserTable();
+    dropUserTables();
     dropGifTable();
 }
 

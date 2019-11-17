@@ -15,7 +15,7 @@ describe("Test GIFS", ()=>{
                 done();
             });
     });
-    it('Create gifs', (done)=> {
-
-    });
+    // it('Create gifs', (done)=> {
+    //
+    // });
 });
