@@ -55,7 +55,6 @@ const createUser = [
             const text = 'SELECT * FROM users WHERE email = $1';
             // Todo Refactor the code
             db.query(text, [req.body.email], (err,results)=>{
-                return res.json(results);
                 // check if a blank row is returned
                 if(results.rows != 0){
                     // display message
