@@ -88,10 +88,10 @@ const createUser = [
                         const values = [id,firstName,lastName,email,password,gender,jobRole,department,address,created_date,modified_date];
 
                         // Insert/Persist the values into DB
-                        db.query(AuthQuery,values, (error, results) => {
+                        db.query(AuthQuery,values, (error, results,next) => {
                             if (error) {
                                //res.status(422).json({ error: error });
-                                throw error;
+                                next(error);
                                 return;
                             }
                             res.status(200).json({
