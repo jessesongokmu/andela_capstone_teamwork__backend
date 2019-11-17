@@ -93,4 +93,26 @@ describe('/POST Create User', ()=>{
                 done();
             });
     });
+
+
+});
+
+describe('POST /auth/signin', () => {
+    it('should login a user', (done) => {
+        chai.request(app)
+            .post('/api/v1/auth/signin')
+            .send({
+                email: "test@gmail.com",
+                password: "test123",
+            })
+            .end((err, res) => {
+                // expect(res).to.not.throw(err);
+                expect(res.status).to.equal(200);
+                expect(res.type).to.equal('application/json');
+                expect(res.body.message).to.equal('Success');
+                expect(res.body.data).to.have.property('userId');
+                expect(res.body.data).to.have.property('token');
+                done();
+            });
+    });
 });
