@@ -92,3 +92,8 @@ typings/
 .nyc_output/
 
 /node_modules/
+/.idea/codeStyles/Project.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/dbnavigator.xml
+/.idea/
+/lcov.info
