@@ -130,14 +130,13 @@ const signin = (req, res, next) => {
             { userId: results.rows[0].id},
             process.env.SECRET,
             { expiresIn: '24h' });
-        res.status(200).json({
+       return res.status(200).json({
             message: "Success",
             data: {
                 userId: results.rows[0].id,
                 token: token
             }
         });
-        return ;
     }).catch( (err)=>{
         return res.status(400).send(err);
     });
