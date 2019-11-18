@@ -8,7 +8,7 @@
     "migrate": "node ./db/initialize_db createUserTables",
     "dev": "nodemon",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
-    "coveralls-coverage": "coveralls < lcov.info",
+    "coveralls-coverage": "coveralls < lcov.info"
   },
   "repository": {
     "type": "git",
