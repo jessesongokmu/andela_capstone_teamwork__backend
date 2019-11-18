@@ -115,7 +115,7 @@ const signin = (req, res, next) => {
     // Get validation results
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({errors: errors.array()});
+       return next(errors);
     }
     // check if email already exists
     const text = 'SELECT * FROM users WHERE email = $1';
@@ -126,10 +126,7 @@ const signin = (req, res, next) => {
         if(!Helper.comparePassword(results.rows[0].password, req.body.password)) {
             return res.status(400).send({ 'message': 'The credentials you provided is incorrect' });
         }
-        const token = jwt.sign(
-            { userId: results.rows[0].id},
-            process.env.SECRET,
-            { expiresIn: '24h' });
+        const token = jwt.sign({ userId: results.rows[0].id}, process.env.SECRET, { expiresIn: '24h' });
        return res.status(200).json({
             message: "Success",
             data: {
