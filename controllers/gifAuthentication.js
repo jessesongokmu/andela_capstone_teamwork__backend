@@ -1,7 +1,16 @@
 const db = require('../config/db');
+const cloudinary = require('../config/cloudinary');
 
 // Create new gifs
-const createGif = [];
+const createGif =  (req,res,next) => {
+    const mfile = req.file;
+    cloudinary.uploader.upload(mfile.path, (results,err)=>{
+        if (err) {
+            return  next(err);
+        }
+        console.log(results);
+    });
+};
 
 // Get all Gifs in desc order
 const getAllGifs = (req, res,next) => {

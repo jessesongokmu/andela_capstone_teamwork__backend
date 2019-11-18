@@ -4,7 +4,7 @@ const logger = require('morgan');
 const compression = require("compression");
 const cors = require('cors');
 const helmet = require('helmet');
-
+const { cloudinaryConfig } = require('./config/cloudinary');
 require('dotenv').config();
 
 // instiantiate express
@@ -29,11 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true}));
 // parse application/json
 app.use(bodyParser.json());
 
-const option = {
-    socketTimeoutMS: 30000,
-    keepAlive: true,
-    reconnectTries: 30000
-};
+app.use('*', cloudinaryConfig);
 
 app.get('/', (req, res) => {
     res.status(200).end();

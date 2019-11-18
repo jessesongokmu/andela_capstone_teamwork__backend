@@ -10,10 +10,10 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
-//Enable the connection
-pool.on('connect', ()=>{
-    console.log('connected to the db');
-});
+// //Enable the connection
+// pool.on('connect', ()=>{
+//     console.log('connected to the db');
+// });
 
 /**
  * Create User Tables
