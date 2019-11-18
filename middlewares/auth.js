@@ -14,13 +14,13 @@ module.exports = (req, res, next) => {
             if (!results.rows[0]) {
                 res.status(401).send({ 'message': 'The token you provided is invalid' });
             }
-            // req.user = { id: decodedToken.userId };
+            req.user = userId;
             next();
         }).catch( (err)=>{
             next(err);
         });
 
-    } catch {
+    } catch(e) {
         res.status(401).json({
             error: 'Invalid request!'
         });
