@@ -43,7 +43,7 @@ const createUserTables = () => {
             console.log(err);
             pool.end();
         });
-}
+};
 
 /**
  * Drop User Tables
@@ -59,7 +59,7 @@ const dropUserTables = () => {
             console.log(err);
             pool.end();
         });
-}
+};
 
 pool.on('remove', () => {
     console.log('client removed');

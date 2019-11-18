@@ -1,6 +1,25 @@
 language: node_js
 node_js:
-  - "stable"
+- stable
+
 cache:
- directories:
-  - "node_modules"
+  directories:
+  - node_modules
+addons:
+  postgresql: "10"
+  apt:
+    packages:
+        - postgresql-10
+        - postgresql-client-10
+  code_climate:
+    repo_token:
+    secure: rNDn+PF/DUe0B0xeZP0UXvfykQNzbZM5UFr0x9uXeYEpvlvXTard3zXxgGRO66D1QPHZ1I13Blp0ukqRR+q8dvD6WCVkTlt8PQyA47Cfp/9lgtgGpND6HJ+q4ejoZoLO9bw1V9Yfcc/5ZYoEmiXZbShOwcn/HLfayp2wR7zi6EWerj2yNtEgxglbe4Ig+njaZl6JuOWPQf73WvQYhrP0WtIx46iZmemAbQ2qSyAd/A2jgYVMgwPegVXqmTWMtxjp6hPJjbOsuBHwOtYsKydUI8Ir6DPjUcfOpLI5rlrG7hBFCro/dSmwwZd+rjWknChYHgke4ffZ1SLc3J4KBOWmgCd3x9dMeanxtwZDi7rpC4PYYOFV2Dzq4aU8FK0XsWnM1q4UtltmDWnwkXL74+s9v9Y6IoG3kO//Txqs8g2gSpjFSaAIkbB7voYHzO0xgmsXanGNNU2FfwBnKqQ0OFMer0k7FWLOBDjScNOmC5N8g9b0ZHurk3pLR+9ts+Ncqij7p/c8y5uPCuzGDvmfr5u07K8LJJRAB336rDmFXkp0HmtiXDMnb+MHzqW46NfBhVkmsOkJlzyDy9ec8g4hFFOG0w6s8haSEwCj73PLjZxN9CZqciLboCYvQLK9ql+RNj+w2pn6V37ViGdtbbFHLWjN45xFp2VEjrH5ynBoCtdGh6c=
+services:
+- postgresql
+before_script:
+- psql -c 'create database travis_ci_test;' -U postgres
+- psql -c "CREATE USER jesse WITH PASSWORD null;" -U postgres
+- npm run migrate
+after_success:
+- npm run coverage
+

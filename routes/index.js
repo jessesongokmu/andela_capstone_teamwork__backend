@@ -10,7 +10,7 @@ router.use('/users', Users);
 router.use('/articles', Articles);
 
 // api/authentication/
-router.use('/login', Auth);
+router.use('/auth', Auth);
 
 
 module.exports = router;
