@@ -1,7 +1,7 @@
 const app = require("../app");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-
+const fs = require('fs');
 const { expect } = chai;
 chai.use(chaiHttp);
 
@@ -19,7 +19,7 @@ describe("Test GIFS", ()=>{
               chai
             .request(app)
             .post("/api/v1/gifs")
-            .attach('images','./test/asset/testimage.jpeg', 'testimage.jpeg')
+            .attach('image',fs.readFileSync('./test/asset/testimage.jpeg'), 'testimage.jpeg')
             .end((err, res) => {
                 expect(res).to.have.status(200);
                 done();
