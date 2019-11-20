@@ -4,6 +4,23 @@ const chaiHttp = require("chai-http");
 
 const { expect } = chai;
 chai.use(chaiHttp);
+
+let UserData = {
+        email: 'test@gmail.com',
+        password: 'test123'
+};
+
+let NewUser =  {
+    firstName : "test",
+    lastName : "test",
+    email : "test@gmail.com",
+    password : "test123",
+    confirmPassword : "test123",
+    gender : "male",
+    jobRole : "manager",
+    department : "ict",
+    address : "2752"
+};
 describe("Api Routes Access", () => {
     it("Api route Versioning", done => {
         chai
@@ -63,21 +80,10 @@ describe('/POST Create User', ()=>{
             });
     });
     it("Post to /auth/create-user to check  if user is persisted into the database", (done)=>{
-        let user = {
-            firstName : "test",
-            lastName : "test",
-            email : "test@gmail.com",
-            password : "test123",
-            confirmPassword : "test123",
-            gender : "male",
-            jobRole : "manager",
-            department : "ict",
-            address : "2752"
-        };
         chai
             .request(app)
             .post("/api/v1/auth/create-user")
-            .send(user)
+            .send(NewUser)
             .end((err, res) => {
                 expect(res).to.have.status(200);
                 done();
@@ -105,10 +111,7 @@ describe('POST /auth/signin', () => {
     it('should login a user', (done) => {
         chai.request(app)
             .post('/api/v1/auth/signin')
-            .send({
-                email: "test@gmail.com",
-                password: "test123",
-            })
+            .send(UserData)
             .end((err, res) => {
                 expect(res.status).to.equal(200);
                 expect(res.type).to.equal('application/json');

@@ -7,6 +7,9 @@ const moment = require('moment');
 const createGif =  (req,res,next) => {
     // TODO file validation
     const mfile = req.file;
+    //get logged in User
+    let userID = req.user;
+    console.log(userID);
     cloudinary.uploader.upload(mfile.path, (results,err)=>{
         if (err) {
             return  next(err);
@@ -15,7 +18,8 @@ const createGif =  (req,res,next) => {
             id: uuid(),
             gifname: results.original_filename,
             imageurl: results.url,
-            userid: "ffb41909-955e-4aba-be3e-a4432ddb02c3",
+            // userid: "ffb41909-955e-4aba-be3e-a4432ddb02c3",
+            userid: userID,
             created_at: results.created_at,
             modified_at: moment(new Date())
         };

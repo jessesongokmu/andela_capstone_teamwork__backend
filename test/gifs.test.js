@@ -9,6 +9,11 @@ const fs = require('fs');
 const { expect } = chai;
 chai.use(chaiHttp);
 
+let UserData = {
+    email: 'test@gmail.com',
+    password: 'test123'
+};
+
 describe("Test GIFS", ()=>{
     it('get all /gifs', (done)=> {
         chai
@@ -20,19 +25,24 @@ describe("Test GIFS", ()=>{
             });
     });
     it('Create gifs', (done)=> {
-              chai
-            .request(app)
-            .post("/api/v1/gifs")
-            .attach('image',fs.readFileSync('./test/asset/testimage.jpeg'), 'testimage.jpeg')
+        chai.request(app)
+            .post('/api/v1/auth/signin')
+            .send(UserData)
             .end((err, res) => {
-                expect(res).to.have.status(200);
-                console.log(err);
+                let token = res.body.data.token;
+                chai.request(app)
+                    .post("/api/v1/gifs")
+                    .set("Authorization", "Bearer " + token)
+                    .attach('image', fs.readFileSync('./test/asset/testimage.jpeg'), 'testimage.jpeg')
+                    .end((err, res) => {
+                        expect(res).to.have.status(200);
+                        done();
+                    }).timeout(50000);
                 done();
             });
-    }).timeout(50000);
-
+    });
     // Test not to get single gif record
-    it("should not get a single student record", (done) => {
+    it("should not get a single GIF ", (done) => {
         const id = 5;
         chai.request(app)
             .get(`/api/v1/gifs/${id}`)
@@ -44,27 +54,30 @@ describe("Test GIFS", ()=>{
     });
     // Test to get single gif record
     it('get One /gif/:ID', (done)=> {
-            const data = {
-                id: uuid(),
-                gifname: "testimage.jpeg1574249796452",
-                imageurl: "http://res.cloudinary.com/dxruj63n4/image/upload/v1574249801/f6huhffkzhek4zqolxsz.jpg",
-                userid: "ffb41909-955e-4aba-be3e-a4432ddb02c3",
-                created_at: "2019-11-20T08:36:41.000Z",
-                modified_at: "2019-11-20T08:36:41.806Z"
-            };
-                const { id, gifname, imageurl,userid,created_at,modified_at } = data;
-                DBQuery.createGif(id, gifname, imageurl,userid,created_at,modified_at).then((result)=>{
-                let id = result.rows[0].id;
+        chai.request(app)
+            .post('/api/v1/auth/signin')
+            .send(UserData)
+            .end((err, res) => {
+                let userID = res.body.data.userId;
+                const data = {
+                    id: uuid(),
+                    gifname: "testimage.jpeg1574249796452",
+                    imageurl: "http://res.cloudinary.com/dxruj63n4/image/upload/v1574249801/f6huhffkzhek4zqolxsz.jpg",
+                    userid: userID,
+                    created_at: "2019-11-20T08:36:41.000Z",
+                    modified_at: "2019-11-20T08:36:41.806Z"
+                };
+                const {id, gifname, imageurl, userid, created_at, modified_at} = data;
+                DBQuery.createGif(id, gifname, imageurl, userid, created_at, modified_at);
                 // start the test
-            chai
-                .request(app)
-                .get(`/api/v1/gifs/${id}`)
-                .end((err, res) => {
-                    expect(res).to.have.status(200);
-                    expect(res).to.be.a('object');
-                    done();
-                });
-            }
-        );
+                chai
+                    .request(app)
+                    .get(`/api/v1/gifs/${id}`)
+                    .end((err, res) => {
+                        expect(res).to.have.status(200);
+                        expect(res).to.be.a('object');
+                        done();
+                    });
+            });
     });
 });

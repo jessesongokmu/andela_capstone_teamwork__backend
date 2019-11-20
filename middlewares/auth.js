@@ -15,7 +15,6 @@ module.exports = (req, res, next) => {
                 res.status(401).send({ 'message': 'The token you provided is invalid' });
             }
             req.user = userId;
-            next();
         }).catch( (err)=>{
             next(err);
         });
@@ -24,5 +23,6 @@ module.exports = (req, res, next) => {
         res.status(401).json({
             error: e
         });
+        next(e);
     }
 };
