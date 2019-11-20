@@ -5,6 +5,7 @@ const uuid = require('uuid/v4');
 const moment = require('moment');
 // Create new gifs
 const createGif =  (req,res,next) => {
+    // TODO file validation
     const mfile = req.file;
     cloudinary.uploader.upload(mfile.path, (results,err)=>{
         if (err) {
@@ -40,6 +41,15 @@ const getAllGifs = (req, res,next) => {
         return  res.status(200).json(results.rows);
     })
 };
+// Get One Gifs in desc order
+const getGifById = (req, res,next) => {
+   let id =  req.params.id;
+   GifActions.getGifById(id).then((result)=>{
+       res.json(result.rows);
+   }).catch((error)=>{
+       next(error);
+   });
+};
 
 const updateGif = [];
 const deleteGif = [];
@@ -47,6 +57,7 @@ const deleteGif = [];
 module.exports = {
     createGif,
     getAllGifs,
+    getGifById,
     updateGif,
     deleteGif
 };

@@ -9,6 +9,13 @@ const createGif = (id, gifname, imageurl, userid, created_at, modified_at) =>{
     return db.query(query,[id, gifname, imageurl, userid, created_at, modified_at]);
 };
 
+const getGifById = (id) =>{
+    const query = `
+    SELECT * FROM gifs WHERE id = $1`;
+    return db.query(query,[id]);
+}
+
 module.exports ={
-    createGif
+    createGif,
+    getGifById
 };
