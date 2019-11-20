@@ -88,7 +88,7 @@ describe('/POST Create User', ()=>{
 });
 
 describe('POST /auth/signin', () => {
-    it('should not login an unregistered user', (done) => {
+    it('should not login unregistered user', (done) => {
         chai.request(app)
         .post('/api/v1/auth/signin')
         .send({
@@ -101,7 +101,7 @@ describe('POST /auth/signin', () => {
           done();
         });
       });
-      
+
     it('should login a user', (done) => {
         chai.request(app)
             .post('/api/v1/auth/signin')

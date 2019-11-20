@@ -11,12 +11,12 @@ require('dotenv').config();
 // instiantiate express
 const app = Express();
 
-const limiter = rateLimit({
-    windowMs: 1 * 60 * 1000, // 1 minute
-    max: 5, // 5 requests,
-})
-
-app.use(limiter);
+// const limiter = rateLimit({
+//     windowMs: 1 * 60 * 1000, // 1 minute
+//     max: 5, // 5 requests,
+// })
+//
+// app.use(limiter);
 
 // log requests to console for development
 app.use(logger('dev'));
