@@ -4,12 +4,19 @@ const logger = require('morgan');
 const compression = require("compression");
 const cors = require('cors');
 const helmet = require('helmet');
-
+const rateLimit = require('express-rate-limit')
+const { cloudinaryConfig } = require('./config/cloudinary');
 require('dotenv').config();
 
 // instiantiate express
 const app = Express();
 
+const limiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 5, // 5 requests,
+})
+
+app.use(limiter);
 
 // log requests to console for development
 app.use(logger('dev'));
@@ -29,11 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true}));
 // parse application/json
 app.use(bodyParser.json());
 
-const option = {
-    socketTimeoutMS: 30000,
-    keepAlive: true,
-    reconnectTries: 30000
-};
+app.use('*', cloudinaryConfig);
 
 app.get('/', (req, res) => {
     res.status(200).end();

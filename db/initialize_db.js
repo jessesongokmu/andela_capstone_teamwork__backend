@@ -7,13 +7,13 @@ dotenv.config();
 
 // Intialize the connection string
 const pool = new Pool({
-    connectionString: process.env.TEST_DATABASE_URL
+    connectionString: process.env.DATABASE_URL
 });
 
-//Enable the connection
-pool.on('connect', ()=>{
-    console.log('connected to the db');
-});
+// //Enable the connection
+// pool.on('connect', ()=>{
+//     console.log('connected to the db');
+// });
 
 /**
  * Create User Tables
@@ -61,6 +61,61 @@ const dropUserTables = () => {
         });
 };
 
+/**
+ * Create GIF Tables
+ */
+const createGifTable = () => {
+    const queryText =`CREATE TABLE IF NOT EXISTS
+      gifs (
+        id UUID PRIMARY KEY,
+        gifName VARCHAR(128) NOT NULL,
+        imageUrl VARCHAR(128) NOT NULL,
+        userId UUID NOT NULL,
+        created_at TIMESTAMP,
+        modified_at TIMESTAMP,
+       FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE
+      )`;
+    pool.query(queryText)
+        .then((res) => {
+            console.log(res);
+            pool.end();
+        })
+        .catch((err) => {
+            console.log(err);
+            pool.end();
+        });
+};
+/**
+ * Drop GIF Tables
+ */
+const dropGifTable = () => {
+    const queryText = 'DROP TABLE IF EXISTS gifs';
+    pool.query(queryText)
+        .then((res) => {
+            console.log(res);
+            pool.end();
+        })
+        .catch((err) => {
+            console.log(err);
+            pool.end();
+        });
+};
+/**
+ * Create All Tables
+ */
+const createAllTables = () => {
+    createUserTables();
+    createGifTable();
+}
+/**
+ * Drop All Tables
+ */
+const dropAllTables = () => {
+    dropUserTables();
+    dropGifTable();
+}
+
+
 pool.on('remove', () => {
     console.log('client removed');
     process.exit(0);
@@ -69,8 +124,12 @@ pool.on('remove', () => {
 
 
 module.exports = {
+    createAllTables,
+    dropAllTables,
     createUserTables,
-    dropUserTables
+    dropUserTables,
+    createGifTable,
+    dropGifTable
 };
 
 require('make-runnable');

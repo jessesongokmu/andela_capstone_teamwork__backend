@@ -88,6 +88,20 @@ describe('/POST Create User', ()=>{
 });
 
 describe('POST /auth/signin', () => {
+    it('should not login an unregistered user', (done) => {
+        chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          username: 'michael@gmail.com',
+          password: 'johnson123'
+        })
+        .end((err, res) => {
+            expect(res).to.have.status(422);
+            expect(res).to.be.a('object');
+          done();
+        });
+      });
+      
     it('should login a user', (done) => {
         chai.request(app)
             .post('/api/v1/auth/signin')

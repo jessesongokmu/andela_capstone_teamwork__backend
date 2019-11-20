@@ -88,10 +88,10 @@ const createUser = [
                         const values = [id,firstName,lastName,email,password,gender,jobRole,department,address,created_date,modified_date];
 
                         // Insert/Persist the values into DB
-                        db.query(AuthQuery,values, (error, results) => {
+                        db.query(AuthQuery,values, (error, results,next) => {
                             if (error) {
                                //res.status(422).json({ error: error });
-                                throw error;
+                                next(error);
                                 return;
                             }
                             res.status(200).json({
@@ -111,7 +111,15 @@ const createUser = [
         }
 ];
 // eslint-disable-next-line no-unused-vars
-const signin = (req, res, next) => {
+const signin = [
+    // Validate what has been posted from the form
+        check('email', 'Email is required').isEmail().isLength({ min: 1 }).trim(),
+        check('password', 'Your password must be at least 5 characters').isLength({ min: 5}).trim(),
+        // Sanitize (escape) the form fields.
+        sanitizeBody('email').escape(),
+        sanitizeBody('password').escape(),
+
+     (req, res, next) => {
     // Get validation results
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -142,7 +150,7 @@ const signin = (req, res, next) => {
         return res.status(400).send(err);
     });
 }
-
+]
 module.exports = {
     createUser,
     signin
