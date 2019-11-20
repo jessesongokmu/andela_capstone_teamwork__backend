@@ -26,6 +26,7 @@ describe("Test GIFS", ()=>{
             .attach('image',fs.readFileSync('./test/asset/testimage.jpeg'), 'testimage.jpeg')
             .end((err, res) => {
                 expect(res).to.have.status(200);
+                console.log(err);
                 done();
             });
     }).timeout(50000);
