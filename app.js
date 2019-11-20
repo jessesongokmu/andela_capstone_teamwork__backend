@@ -4,12 +4,19 @@ const logger = require('morgan');
 const compression = require("compression");
 const cors = require('cors');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit')
 const { cloudinaryConfig } = require('./config/cloudinary');
 require('dotenv').config();
 
 // instiantiate express
 const app = Express();
 
+const limiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 5, // 5 requests,
+})
+
+app.use(limiter);
 
 // log requests to console for development
 app.use(logger('dev'));
