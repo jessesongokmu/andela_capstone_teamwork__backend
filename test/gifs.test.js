@@ -24,5 +24,5 @@ describe("Test GIFS", ()=>{
                 expect(res).to.have.status(200);
                 done();
             });
-    });
+    }).timeout(10000);
 });
