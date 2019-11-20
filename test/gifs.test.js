@@ -64,8 +64,6 @@ describe("Test GIFS", ()=>{
                     done();
                 });
             }
-        ).catch( (error)=>{
-            throw error;
-        });
+        );
     });
 });
