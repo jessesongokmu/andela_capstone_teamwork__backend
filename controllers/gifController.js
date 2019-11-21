@@ -9,7 +9,6 @@ const createGif =  (req,res,next) => {
     const mfile = req.file;
     //get logged in User
     let userID = req.user;
-    console.log(userID);
     cloudinary.uploader.upload(mfile.path, (results,err)=>{
         if (err) {
             return  next(err);
@@ -26,7 +25,7 @@ const createGif =  (req,res,next) => {
         const { id, gifname, imageurl,userid,created_at,modified_at } = data;
         // Insert the Params to DB
       GifActions.createGif(id, gifname, imageurl,userid,created_at,modified_at).then((result)=>{
-              res.json(result.rows)
+              res.json(result.rows);
           }
       ).catch( (error)=>{
               next(error)

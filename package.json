@@ -4,7 +4,7 @@
   "description": "An internal social network for employees of an organization",
   "main": "server.js",
   "scripts": {
-    "test": "mocha   -timeout 15000",
+    "test": "mocha   -timeout 150000",
     "migrate": "node db/initialize_db createUserTables && node db/initialize_db createGifTable",
     "dev": "nodemon",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",

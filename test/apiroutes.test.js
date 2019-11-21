@@ -113,7 +113,7 @@ describe('POST /auth/signin', () => {
             .post('/api/v1/auth/signin')
             .send(UserData)
             .end((err, res) => {
-                expect(res.status).to.equal(200);
+                expect(res).to.have.status(200);
                 expect(res.type).to.equal('application/json');
                 expect(res.body.message).to.equal('Success');
                 expect(res.body.data).to.have.property('userId');
