@@ -8,10 +8,11 @@ const gifUploads = require('../middlewares/multer-config');
 const gifController = require('../controllers/gifController');
 
 // individual user routes
-// router.post('/create', Auth, gifUploads, gifController.createGif);
-router.post('/',  gifUploads, gifController.createGif);
+router.post('/', Auth, gifUploads, gifController.createGif);
+// router.post('/',  gifUploads, gifController.createGif);
 router.get('/', gifController.getAllGifs);
-router.put('/update/{id}', gifController.updateGif);
-router.delete('/delete/{id}', gifController.deleteGif);
+router.get('/:id', gifController.getGifById);
+router.put('/:id', gifController.updateGif);
+router.delete('/:id', gifController.deleteGif);
 
 module.exports = router;
