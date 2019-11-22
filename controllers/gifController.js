@@ -55,7 +55,38 @@ const getGifById = (req, res,next) => {
 };
 
 const updateGif = [];
-const deleteGif = [];
+
+const deleteGif = [
+    (req,res,next)=>{
+        // GET Auth User
+        let userID =  req.user;
+        // Get GIF ID
+        let id =  req.params.id;
+        // Find if GIF Exists
+        GifActions.verifyGifById(id,userID).then((result)=>{
+           if(result.rows == 0){
+             return   res.json({
+                   status: "Error",
+                   message: "gif does not Exist or You are not the Owner"
+               })
+           }else{
+               //Run DB Delete Query
+               GifActions.deleteGifById(id,userID).then((result,err)=>{
+                   console.log(err);
+                   return res.json({
+                       status: "Success",
+                       message: "gif post successfully deleted",
+                       gifID: result.rows.id
+                   });
+               }).catch((error)=>{
+                   next(error);
+               });
+           }
+        }).catch((error)=>{
+            next(error);
+        });
+    }
+];
 
 module.exports = {
     createGif,
