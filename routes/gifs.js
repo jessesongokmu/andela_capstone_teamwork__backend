@@ -13,6 +13,6 @@ router.post('/', Auth, gifUploads, gifController.createGif);
 router.get('/', gifController.getAllGifs);
 router.get('/:id', gifController.getGifById);
 router.put('/:id', gifController.updateGif);
-router.delete('/:id', gifController.deleteGif);
+router.delete('/:id', Auth, gifController.deleteGif);
 
 module.exports = router;

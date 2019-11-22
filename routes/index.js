@@ -4,6 +4,11 @@ const Users = require('./users');
 const Articles = require('./articles');
 const Auth = require('./auth');
 const Gif = require('./gifs');
+
+// Swagger Documentation
+// const swaggerJsdoc = require("swagger-jsdoc");
+// const swaggerUi = require("swagger-ui-express");
+
 // api/articles/
 router.use('/users', Users);
 

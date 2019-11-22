@@ -25,6 +25,10 @@ describe("Test GIFS", ()=>{
             });
     });
     // it('Create gifs', (done)=> {
+    //     let UserData = {
+    //         email: 'test@gmail.com',
+    //         password: 'test123'
+    //     };
     //     chai.request(app)
     //         .post('/api/v1/auth/signin')
     //         .send(UserData)
@@ -73,6 +77,37 @@ describe("Test GIFS", ()=>{
                 chai
                     .request(app)
                     .get(`/api/v1/gifs/${id}`)
+                    .end((err, res) => {
+                        expect(res).to.be.a('object');
+                        expect(res).to.have.status(200);
+                        done();
+                    });
+            });
+    });
+
+    // Test to delete a gif record
+    it('Delete One /gif/:ID', (done)=> {
+        chai.request(app)
+            .post('/api/v1/auth/signin')
+            .send(UserData)
+            .end((err, res) => {
+                let userID = res.body.data.userId;
+                let token = res.body.data.token;
+                const data = {
+                    id: uuid(),
+                    gifname: "testimage.jpeg1574249796452",
+                    imageurl: "http://res.cloudinary.com/dxruj63n4/image/upload/v1574249801/f6huhffkzhek4zqolxsz.jpg",
+                    userid: userID,
+                    created_at: "2019-11-20T08:36:41.000Z",
+                    modified_at: "2019-11-20T08:36:41.806Z"
+                };
+                const {id, gifname, imageurl, userid, created_at, modified_at} = data;
+                DBQuery.createGif(id, gifname, imageurl, userid, created_at, modified_at);
+                // start the test
+                chai
+                    .request(app)
+                    .delete(`/api/v1/gifs/${id}`)
+                    .set("Authorization", "Bearer " + token)
                     .end((err, res) => {
                         expect(res).to.be.a('object');
                         expect(res).to.have.status(200);

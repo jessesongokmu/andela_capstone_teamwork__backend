@@ -14,7 +14,14 @@ const getGifById = (id) =>{
     SELECT * FROM gifs WHERE id = $1`;
     return db.query(query,[id]);
 };
+//verify if Gif belongs to user
+const verifyGifById = (id,userID) =>{
+    const query = `
+    SELECT * FROM gifs WHERE id = $1AND userid= $2`;
+    return db.query(query,[id,userID]);
+};
 
+//Delete specified GIF by id
 const deleteGifById = (id,userID)=>{
     const dquery = `
         DELETE FROM gifs WHERE id = $1 AND userid= $2`;
@@ -24,5 +31,6 @@ const deleteGifById = (id,userID)=>{
 module.exports ={
     createGif,
     getGifById,
-    deleteGifById
+    deleteGifById,
+    verifyGifById
 };
